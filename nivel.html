@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!-- https://sensor-js.xyz/demo.html -->
+<html lang="es">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sight CSS</title>
+
+        <style>
+            /* RESET */
+            *, *::before, *::after { box-sizing: border-box }
+            * { margin: 0 }
+
+            :root {
+                --size-sight: calc(min(100vw,100vh) - 20px);
+                --circ1:16;
+                --circ2:5.22;
+                --circ3:3.14;
+                --circ4:2.24;
+                --div-ini: 7px;
+                --div-weight: 2px;
+                --div-gap: 16px;
+                --div-size: 12px;
+                --color-rad: black;
+                --color-x: black;
+                --color-y: black;
+                --color-div-x:black;
+                --color-div-y:black;
+                --bg-green:#9dff0a;
+                --bg-blue:#0afbff;
+                --bg-pink:#ff70e5;
+                --bg-yellow:#f2f74a;
+                --bg-orange:#ffb835;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                /* align-items: center;
+                flex-wrap: wrap;
+                align-content: center; */
+                width: 100vw;
+                height: 100vh;                
+            }
+            body, body:fullscreen, body::backdrop {
+                background-color: white;
+                background-image: linear-gradient(45deg, #ddd, transparent);
+            }
+            .wrap-body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                align-content: center;
+            }
+            button {
+                padding: 10px 20px;            
+                border: 1px solid blue;
+                border-radius: 20px;
+                background: blue;
+                color: white;
+                font-weight: bold;
+            }
+            .spirit-level {
+                position: relative;
+                width: var(--size-sight);
+                height: var(--size-sight);
+            }
+            .spirit-level::before,
+            .spirit-level::after {
+                content: "";
+                position: absolute;
+                width: inherit;
+                height: inherit;
+                border-radius: 50%;
+            }
+            .spirit-level::before {
+                background-color: var(--bg-orange);
+            }
+            .spirit-level::after {
+                background-image: radial-gradient( transparent calc(var(--size-sight) / var(--circ1)), var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ1) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ2)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ2) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ3)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ3) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ4)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ4) + 1px), transparent 0
+                                ),
+                                linear-gradient(transparent calc(var(--size-sight) / 2), var(--color-x) 0, var(--color-x) calc(var(--size-sight) / 2 + 1px), transparent 0),
+                                linear-gradient(to right,transparent calc(var(--size-sight) / 2), var(--color-y) 0, var(--color-y) calc(var(--size-sight) / 2 + 1px), transparent 0),
+                                linear-gradient(to right, transparent var(--div-ini), var(--color-div-x) 0, var(--color-div-x) calc(var(--div-ini) + var(--div-weight)),transparent 0),
+                                linear-gradient(transparent var(--div-ini), var(--color-div-y) 0, var(--color-div-y) calc(var(--div-ini) + var(--div-weight)), transparent 0);
+                background-position: center;
+                background-size: auto, auto , auto, var(--div-gap) var(--div-size), var(--div-size) var(--div-gap);
+                background-repeat: no-repeat, no-repeat, no-repeat, repeat-x, repeat-y;            
+                box-shadow: -3px 7px 16px -4px #000b, inset -6px 6px 10px -4px #fffb, inset 2px 6px 10px -4px #fffb, inset 8px -12px 25px -4px #0008;
+            }
+            .bubble {
+                top: calc(50% - min(6vh, 6vw));
+                left: calc(50% - min(6vh, 6vw));
+                position: absolute;
+                width: min(12vh, 12vw);
+                height: min(12vh, 12vw);
+                border-radius: 50%;
+                background-color: #FFF2;
+                box-shadow: -3px 7px 16px -4px #000b, inset -6px 6px 10px -4px #000b, inset 2px 6px 10px -4px #000b, inset 8px -12px 25px -4px #fff;
+                transition: all 1.5s cubic-bezier(0, 0, 0.75, 1);
+            }
+            .sight {
+                width: var(--size-sight);
+                height: var(--size-sight);
+                background-color: var(--bg-green);
+                border-radius: 50%;
+                background-image: radial-gradient( transparent calc(var(--size-sight) / var(--circ1)), var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ1) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ2)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ2) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ3)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ3) + 1px), transparent 0,
+                                                transparent calc(var(--size-sight) / var(--circ4)),  var(--color-rad) 0, var(--color-rad) calc(var(--size-sight) / var(--circ4) + 1px), transparent 0
+                                ),
+                                linear-gradient(transparent calc(var(--size-sight) / 2), var(--color-x) 0, var(--color-x) calc(var(--size-sight) / 2 + 1px), transparent 0),
+                                linear-gradient(to right,transparent calc(var(--size-sight) / 2), var(--color-y) 0, var(--color-y) calc(var(--size-sight) / 2 + 1px), transparent 0),
+                                linear-gradient(to right, transparent var(--div-ini), var(--color-div-x) 0, var(--color-div-x) calc(var(--div-ini) + var(--div-weight)),transparent 0),
+                                linear-gradient(transparent var(--div-ini), var(--color-div-y) 0, var(--color-div-y) calc(var(--div-ini) + var(--div-weight)), transparent 0);
+                background-position: center;
+                background-size: auto, auto , auto, var(--div-gap) var(--div-size), var(--div-size) var(--div-gap);
+                background-repeat: no-repeat, no-repeat, no-repeat, repeat-x, repeat-y;
+            }
+            .orientation {
+                display: flex;
+                gap: 20px;
+                margin: 10px auto;
+            }
+            .mt-2vh { margin-top: 10vh }
+        </style>
+    </head>
+    <body>
+        <div id="wrap-start" class="wrap-body">
+            <button id="btn-start">Start</button>
+        </div>
+        <div id="wrap-level" class="wrap-body" style="display: none">
+            <div class="orientation">
+                <div>&alpha;: <span id="orientation_a">0.00000</span></div>
+                <div>&beta;: <span id="orientation_b">0.00000</span></div>
+                <div>&gamma;: <span id="orientation_g">0.00000</span></div>
+            </div>
+            <div class="spirit-level" id="spiritLevel">
+                <div class="bubble" id="bubble"></div>
+            </div>
+            <button id="btn-exit" class="mt-2vh">Exit</button>
+        </div>
+
+        <script>            
+            const init = () =>  {
+                const _btnStart = document.querySelector('#btn-start');
+                const _btnExit  = document.querySelector('#btn-exit');
+                const _bubble   = document.querySelector('#bubble');
+                const _spiritLevel = document.querySelector('#spiritLevel');
+
+                _btnStart.addEventListener('click', start );
+                _btnExit.addEventListener( 'click', exit  );
+
+
+                // Pantalla completa
+                function openFullscreen() {
+                const elem = document.body;
+                if (elem.requestFullscreen)
+                    elem.requestFullscreen();
+                else if (elem.webkitRequestFullscreen) /* Safari */
+                    elem.webkitRequestFullscreen();
+                else if (elem.msRequestFullscreen) /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+
+                // Bloquear la vista en la orientaqción vertical
+                function lockOrientation() {
+                    if ("lock" in screen.orientation)        screen.orientation.lock(_portrait);
+                    else if ("lockOrientation" in screen)    screen.lockOrientation(_portrait);
+                    else if ("mozLockOrientation" in screen) screen.mozLockOrientation(_portrait);
+                    else if ("msLockOrientation" in screen)  screen.msLockOrientation(_portrait);
+                    else if ("lockOrientation" in screen && screen.orientation?.type === "landscape-primary") screen.orientation.lock("portrait-primary");
+                }
+                
+                // Manejador del evento de la orientación
+                function handleOrientation(event) {
+                    updateOrientationField("orientation_a", event.alpha);
+                    updateOrientationField("orientation_b", event.beta);
+                    updateOrientationField("orientation_g", event.gamma);
+                    updateBubblePosition(event);
+                }
+
+                // Actualizamos el campo de orientación
+                function updateOrientationField(fieldName, value, precision = 5) {
+                    if (value === null) return;
+                    document.getElementById(fieldName).innerHTML =  value.toFixed(precision);
+                }
+
+                // Actualiza la posición de la burbuja
+                function updateBubblePosition( e ) {
+                    const radio = (_spiritLevel.clientWidth - _bubble.clientWidth) / 2
+                    const stretches = 10;
+                    const stretch = radio / stretches;
+                    const a = e.alpha;
+                    const b = e.beta;
+                    const g = e.gamma;
+                    let y = (-1 * stretch * b );
+                    let x = (-1 * stretch * g );
+
+                    const H = (x**2 + y**2)**.5;
+                    let porcent = 1;
+
+                    if( H > radio ) porcent = radio / H;
+
+                    _bubble.style.top = (y * porcent) + radio + 'px';
+                    _bubble.style.left = (x * porcent) + radio + 'px';
+                }
+
+                // Pantalla completa y bloqueo de orientación
+                function start() {
+                    openFullscreen();
+                    setTimeout( lockOrientation, 200);
+                    document.querySelector('#wrap-start').style.display = 'none';
+                    document.querySelector('#wrap-level').style.display = 'flex';
+                    window.addEventListener("deviceorientation", handleOrientation);
+                }
+                
+                // Salir de la pantalla completa
+                function exit() {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); /* Safari */                    
+                else if (document.msExitFullscreen) document.msExitFullscreen(); /* IE11 */
+                document.querySelector('#wrap-start').style.display = 'flex';
+                document.querySelector('#wrap-level').style.display = 'none';
+                window.removeEventListener("deviceorientation", handleOrientation);
+            }
+                
+            };
+            // Ha cargado la página...
+            (document.readyState !== 'loading')
+            ? init()
+            : document.addEventListener('DOMContentLoaded', init );
+
+        </script>
+    </body>
+</html>
