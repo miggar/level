@@ -153,10 +153,16 @@
                 const _btnExit  = document.querySelector('#btn-exit');
                 const _bubble   = document.querySelector('#bubble');
                 const _spiritLevel = document.querySelector('#spiritLevel');
+                const _deg2rad = Math.PI / 180;
 
                 _btnStart.addEventListener('click', start );
                 _btnExit.addEventListener( 'click', exit  );
 
+                // Grados a radianes
+                function deg2rad( deg ) {
+                    if ( !deg ) return 0;
+                    return _deg2rad * deg
+                }
 
                 // Pantalla completa
                 function openFullscreen() {
@@ -195,21 +201,15 @@
                 // Actualiza la posición de la burbuja
                 function updateBubblePosition( e ) {
                     const radio = (_spiritLevel.clientWidth - _bubble.clientWidth) / 2
-                    const stretches = 10;
-                    const stretch = radio / stretches;
-                    const a = e.alpha;
+                    // const a = e.alpha;
                     const b = e.beta;
                     const g = e.gamma;
-                    let y = (-1 * stretch * b );
-                    let x = (-1 * stretch * g );
+                    
+                    let y = -1 * Math.sin(deg2rad(b)) * radio;
+                    let x = -1 * Math.sin(deg2rad(g)) * radio;
 
-                    const H = (x**2 + y**2)**.5;
-                    let porcent = 1;
-
-                    if( H > radio ) porcent = radio / H;
-
-                    _bubble.style.top = (y * porcent) + radio + 'px';
-                    _bubble.style.left = (x * porcent) + radio + 'px';
+                    _bubble.style.top  = y + radio + 'px';
+                    _bubble.style.left = x + radio + 'px';
                 }
 
                 // Pantalla completa y bloqueo de orientación
