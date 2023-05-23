@@ -102,7 +102,7 @@
                 border-radius: 50%;
                 background-color: #FFF2;
                 box-shadow: -3px 7px 16px -4px #000b, inset -6px 6px 10px -4px #000b, inset 2px 6px 10px -4px #000b, inset 8px -12px 25px -4px #fff;
-                transition: all 1.5s cubic-bezier(0.25, 0, 0.75, 1);
+                transition: all 1.5s cubic-bezier(0, 0, 0.75, 1);
             }
             .sight {
                 width: var(--size-sight);
@@ -204,12 +204,16 @@
                     // const a = e.alpha;
                     const b = e.beta;
                     const g = e.gamma;
-                    
-                    let y = -1 * Math.sin(deg2rad(b)) * radio;
-                    let x = -1 * Math.sin(deg2rad(g)) * radio;
 
-                    _bubble.style.top  = y + radio + 'px';
-                    _bubble.style.left = x + radio + 'px';
+                    let y = -1 * Math.sin(deg2rad(b));
+                    let x = -1 * Math.sin(deg2rad(g));
+                    let H = (x**2 + y**2)**.5;
+                    let porcent = 1;
+
+                    if( H > 1 ) porcent = 1 / H;
+
+                    _bubble.style.top  = ( y * porcent * radio ) + radio + 'px';
+                    _bubble.style.left = ( x * porcent * radio ) + radio + 'px';
                 }
 
                 // Pantalla completa y bloqueo de orientación
